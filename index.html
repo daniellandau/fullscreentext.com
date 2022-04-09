@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+     #hugetext {
+         text-align: center;
+         width: 100vw;
+         border: none;
+         margin: 0;
+         padding: 0;
+     }
+     #hugetext:focus {
+         outline: none;
+         border: none;
+     }
+     body {
+         overflow: hidden;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         margin: 0;
+         height: 100vh;
+     }
+     #fullscreen {
+         position: absolute;
+         right: 10px;
+         bottom: 10px;
+     }
+    </style>
+  </head>
+  <body>
+    <textarea id="hugetext">Write here</textarea>
+    <button id="fullscreen">fullscreen</button>
+    <script>
+     var el = document.getElementById("hugetext")
+     var button = document.getElementById("fullscreen")
+     button.addEventListener('click', function () { el.requestFullscreen() })
+     el.focus();
+     el.addEventListener('keyup', maximize)
+     window.addEventListener('resize', maximize)
+     var size = 30;
+     function maximize() {
+       var viewport_width = window.innerWidth;
+       var viewport_height = window.innerHeight;
+       function isOverflown(element) {
+         return element.scrollHeight > viewport_height || element.scrollWidth > viewport_width;
+       }
+       if (isOverflown(el)) {
+         while (isOverflown(el)) {
+           size -= 20;
+           el.style.fontSize = `${size}px`;
+           el.style.height = '1px';
+           el.style.height = `${el.scrollHeight}px`;
+         }
+       } else {
+         while (true) {
+           el.style.fontSize = `${size}px`;
+           if (isOverflown(el)) {
+             size -= 20;
+             el.style.fontSize = `${size}px`;
+             el.style.height = '1px';
+             el.style.height = `${el.scrollHeight}px`;
+             break;
+           }
+           size += 20;
+         }
+       }
+     }
+     maximize()
+    </script>
+  </body>
+</html>
