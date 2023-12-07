@@ -7,11 +7,6 @@
          text-align: center;
          width: 100vw;
          border: none;
-         display:block;
-         position:absolute;
-         top:0;
-         bottom:0;
-
          margin: 0;
          padding: 0;
      }
@@ -46,33 +41,29 @@
      window.addEventListener('resize', maximize)
      var size = 30;
      function maximize() {
-             var step = 5
        var viewport_width = window.innerWidth;
        var viewport_height = window.innerHeight;
        function isOverflown(element) {
-         return element.scrollHeight > viewport_height
-         //return element.scrollHeight > viewport_height || element.scrollWidth > viewport_width;
+         return element.scrollHeight > viewport_height || element.scrollWidth > viewport_width;
        }
        if (isOverflown(el)) {
          while (isOverflown(el)) {
-           size -= step;
+           size -= 20;
            el.style.fontSize = `${size}px`;
            el.style.height = '1px';
            el.style.height = `${el.scrollHeight}px`;
-             el.style.height = '100%';
          }
        } else {
          while (true) {
            el.style.fontSize = `${size}px`;
            if (isOverflown(el)) {
-             size -= step;
+             size -= 20;
              el.style.fontSize = `${size}px`;
              el.style.height = '1px';
              el.style.height = `${el.scrollHeight}px`;
-             el.style.height = '100%';
              break;
            }
-           size += step;
+           size += 20;
          }
        }
      }
