@@ -5,7 +5,7 @@
     <style>
      #hugetext {
          text-align: center;
-         width: 100vw;
+         width: 98vw;
          border: none;
          margin: 0;
          padding: 0;
@@ -14,13 +14,15 @@
          outline: none;
          border: none;
      }
-     body {
+     #body {
          overflow: hidden;
          display: flex;
          align-items: center;
          justify-content: center;
          margin: 0;
          height: 100vh;
+         width: 100vw;
+         background-color: white;
      }
      #fullscreen {
          position: absolute;
@@ -30,40 +32,54 @@
     </style>
   </head>
   <body>
-    <textarea id="hugetext">Write here</textarea>
+    <div id="body">
+      <textarea id="hugetext">Write here</textarea>
+    </div>
     <button id="fullscreen">fullscreen</button>
     <script>
-     var el = document.getElementById("hugetext")
-     var button = document.getElementById("fullscreen")
-     button.addEventListener('click', function () { el.requestFullscreen() })
-     el.focus();
-     el.addEventListener('keyup', maximize)
-     window.addEventListener('resize', maximize)
-     var size = 30;
-     function maximize() {
-       var viewport_width = window.innerWidth;
-       var viewport_height = window.innerHeight;
+    var el = document.getElementById("hugetext")
+    var body = document.getElementById("body")
+    var button = document.getElementById("fullscreen")
+    button.addEventListener('click', function () { body.requestFullscreen() })
+    el.focus();
+    el.addEventListener('keyup', maximize)
+    window.addEventListener('resize', maximize)
+    var size = 30;
+    var step = 1;
+    function maximize() {
+      var viewport_width = window.innerWidth;
+      var viewport_height = window.innerHeight;
        function isOverflown(element) {
          return element.scrollHeight > viewport_height || element.scrollWidth > viewport_width;
        }
+       function setSize(el, size) {
+         el.style.fontSize = `${size}px`;
+         el.style.height = '1px';
+         el.style.height = `${el.scrollHeight}px`;
+       }
        if (isOverflown(el)) {
          while (isOverflown(el)) {
-           size -= 20;
-           el.style.fontSize = `${size}px`;
-           el.style.height = '1px';
-           el.style.height = `${el.scrollHeight}px`;
+           size -= step;
+           setSize(el, size);
          }
        } else {
+         let overshoot = 0;
+         const allowed_overshoot = 60;
          while (true) {
            el.style.fontSize = `${size}px`;
            if (isOverflown(el)) {
-             size -= 20;
-             el.style.fontSize = `${size}px`;
-             el.style.height = '1px';
-             el.style.height = `${el.scrollHeight}px`;
-             break;
+             overshoot++;
+             if (overshoot > allowed_overshoot) {
+               while (isOverflown(el)) {
+                 size -= step;
+                 setSize(el, size);
+               }
+               break;
+             }
+           } else {
+             overshoot = 0;
            }
-           size += 20;
+           size += step;
          }
        }
      }
