@@ -5,23 +5,30 @@
     <style>
      #hugetext {
          text-align: center;
-         width: 98vw;
+         width: 96vw;
+         height: 96vh;
          border: none;
          margin: 0;
          padding: 0;
+         resize: none;
+         overflow: hidden;
      }
-     #hugetext:focus {
-         outline: none;
-         border: none;
-     }
+    #hugetext:focus {
+        outline: none;
+        border: none;
+    }
+    body {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
      #body {
          overflow: hidden;
          display: flex;
          align-items: center;
          justify-content: center;
          margin: 0;
-         height: 100vh;
-         width: 100vw;
+         height: 98vh;
+         width: 98vw;
          background-color: white;
      }
      #fullscreen {
