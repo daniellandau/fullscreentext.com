@@ -49,6 +49,7 @@
     var body = document.getElementById("body")
     var button = document.getElementById("fullscreen")
     button.addEventListener('click', function () { body.requestFullscreen() })
+    el.addEventListener('focus', () => el.select());
     el.focus();
     el.addEventListener('keyup', maximize)
     window.addEventListener('resize', maximize)
